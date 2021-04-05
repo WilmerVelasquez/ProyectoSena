@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ProyectoSena.Core.Domain.Solicitud>
+
+@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutM.cshtml"; }
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreSolicitud)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCreada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaRespuesta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEstadoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreSolicitud)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaCreada)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaRespuesta)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IdEstadoNavigation.IdEstado)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdUsuario)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.IdSolicitud">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.IdSolicitud">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.IdSolicitud">Delete</a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
