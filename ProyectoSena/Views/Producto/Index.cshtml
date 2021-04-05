@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<ProyectoSena.Core.Domain.Producto>
 
-@{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_LayoutM.cshtml"; }
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutM.cshtml";
+}
 
 <h1>Index</h1>
 
@@ -29,24 +31,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.NombreProducto)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CantidadDisponible)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Medidas)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IdSuministroNavigation.IdSuministro)
-    </td>
-    <td>
-        <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
-    </td>
-</tr>}
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantidadDisponible)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Medidas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdSuministroNavigation.IdSuministro)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
