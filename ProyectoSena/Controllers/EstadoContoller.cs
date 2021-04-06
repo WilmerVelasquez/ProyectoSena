@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ProyectoSena.Controllers
 {
-    public class EstadoContoller : Controller
+    public class EstadoController : Controller
     {
         private readonly ProyectoSenaDbContext _context;
 
-        public EstadoContoller(ProyectoSenaDbContext context)
+        public EstadoController(ProyectoSenaDbContext context)
         {
             _context = context;
         }

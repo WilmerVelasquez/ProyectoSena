@@ -9,11 +9,20 @@ namespace ProyectoSena.Core.Domain
 {
     public partial class Solicitud
     {
+        public Solicitud()
+        {
+            Usuario = new HashSet<Usuario>();
+        }
+
         public int IdSolicitud { get; set; }
         public string NombreSolicitud { get; set; }
         public DateTime? FechaCreada { get; set; }
         public string FechaRespuesta { get; set; }
-        public int? IdEstado { get; set; }
-        public int? IdUsuario { get; set; }
+        public int IdSuministro { get; set; }
+        public int IdEstado { get; set; }
+
+        public virtual Estado IdEstadoNavigation { get; set; }
+        public virtual Suministro IdSuministroNavigation { get; set; }
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

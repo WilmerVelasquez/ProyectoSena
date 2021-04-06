@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoSena.Core;
 using ProyectoSena.Core.Domain;
+using ProyectoSena.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ProyectoSena.Controllers
         //GET:Horario
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Horario.ToListAsync());
+            return View(await _context.Horarios.ToListAsync());
         }
         //GET:Horario/Details
         public async Task<IActionResult> Details(int? id)
@@ -29,7 +30,7 @@ namespace ProyectoSena.Controllers
             {
                 return NotFound();
             }
-            var horario = await _context.Horario
+            var horario = await _context.Horarios
                 .FirstOrDefaultAsync(m => m.IdHorario == id);
             if (horario == null)
             {
@@ -45,7 +46,7 @@ namespace ProyectoSena.Controllers
         //POST: Horario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdHorario,NombreHorario")] Horario horario)
+        public async Task<IActionResult> Create([Bind("IdHorario,NombreHorario")] Horarios horario)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +63,7 @@ namespace ProyectoSena.Controllers
             {
                 return NotFound();
             }
-            var horario = await _context.Horario.FindAsync(id);
+            var horario = await _context.Horarios.FindAsync(id);
             if(horario == null)
 
             {
@@ -73,7 +74,7 @@ namespace ProyectoSena.Controllers
         //Post: Horario/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,[Bind("IdHorario,NombreHorario")]Horario horario)
+        public async Task<IActionResult> Edit(int id,[Bind("IdHorario,NombreHorario")]Horarios horario)
         {
             if (id != horario.IdHorario)
             {
@@ -109,7 +110,7 @@ namespace ProyectoSena.Controllers
                 return NotFound();
 
             }
-            var horario = await _context.Horario
+            var horario = await _context.Horarios
                 .FirstOrDefaultAsync(m => m.IdHorario == id);
             if (horario == null)
             {
@@ -122,14 +123,14 @@ namespace ProyectoSena.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var horario = await _context.Horario.FindAsync(id);
-            _context.Horario.Remove(horario);
+            var horario = await _context.Horarios.FindAsync(id);
+            _context.Horarios.Remove(horario);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         private bool HorarioExists(int id)
         {
-            return _context.Horario.Any(e => e.IdHorario == id);
+            return _context.Horarios.Any(e => e.IdHorario == id);
         }
     }
 }

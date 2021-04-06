@@ -9,8 +9,16 @@ namespace ProyectoSena.Core.Domain
 {
     public partial class Suministro
     {
+        public Suministro()
+        {
+            Producto = new HashSet<Producto>();
+            Solicitud = new HashSet<Solicitud>();
+        }
+
         public int IdSuministro { get; set; }
         public string NombreSuministro { get; set; }
-        public int? IdSolicitud { get; set; }
+
+        public virtual ICollection<Producto> Producto { get; set; }
+        public virtual ICollection<Solicitud> Solicitud { get; set; }
     }
 }

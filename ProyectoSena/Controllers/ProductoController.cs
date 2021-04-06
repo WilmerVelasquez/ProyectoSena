@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSena.Core;
 using ProyectoSena.Core.Domain;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +19,7 @@ namespace ProyectoSena.Controllers
         //GET: Producto
         public async Task<IActionResult> Index()
         {
-            var ProyectoSenaDbContext = _context.Producto.Include(p =>p.IdSuministro);
+            var ProyectoSenaDbContext = _context.Producto.Include(p => p.IdSuministroNavigation);
             return View(await ProyectoSenaDbContext.ToListAsync());
         }
         //GET:Producto/Details
@@ -33,7 +31,7 @@ namespace ProyectoSena.Controllers
             }
 
             var producto = await _context.Producto
-                .Include(p => p.IdSuministro)
+                .Include(p => p.IdSuministroNavigation)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
             if(producto == null)
             {

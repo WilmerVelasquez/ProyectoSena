@@ -22,8 +22,8 @@ namespace ProyectoSena.Controllers
         // GET: Suministroes
         public async Task<IActionResult> Index()
         {
-            var sistemaRecursosHumanosDbContext = _context.Suministro.Include(s => s.IdSolicitud);
-            return View(await sistemaRecursosHumanosDbContext.ToListAsync());
+            var ProyectoSenaDbContext = _context.Usuario.Include(s => s.IdSolicitudNavigation).Include(s =>s.IdEstadoNavigation).Include(s =>s.IdHorarioNavigation);
+            return View(await ProyectoSenaDbContext.ToListAsync());
         }
 
         // GET: Suministroes/Details/5
@@ -34,21 +34,25 @@ namespace ProyectoSena.Controllers
                 return NotFound();
             }
 
-            var suministro = await _context.Suministro
-                .Include(s => s.IdSolicitud)
-                .FirstOrDefaultAsync(m => m.IdSuministro == id);
-            if (suministro == null)
+            var usuario = await _context.Usuario
+                .Include(s => s.IdSolicitudNavigation)
+                .Include(s => s.IdEstadoNavigation)
+                .Include(s => s.IdHorarioNavigation)
+                .FirstOrDefaultAsync(m => m.IdUsuario == id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            return View(suministro);
+            return View(usuario);
         }
 
         // GET: Suministroes/Create
         public IActionResult Create()
         {
             ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud");
+            ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado");
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario");
             return View();
         }
 
@@ -57,16 +61,18 @@ namespace ProyectoSena.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdSuministro,NombreSuministro,IdSolicitud")] Suministro suministro)
+        public async Task<IActionResult> Create([Bind("IdUsuario,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Direccion")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(suministro);
+                _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud", suministro.IdSolicitud);
-            return View(suministro);
+            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud");
+            ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado");
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario");
+            return View(usuario);
         }
 
         // GET: Suministroes/Edit/5
@@ -77,13 +83,15 @@ namespace ProyectoSena.Controllers
                 return NotFound();
             }
 
-            var suministro = await _context.Suministro.FindAsync(id);
-            if (suministro == null)
+            var usuario = await _context.Usuario.FindAsync(id);
+            if (usuario == null)
             {
                 return NotFound();
             }
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud", suministro.IdSolicitud);
-            return View(suministro);
+            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud");
+            ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado");
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario");
+            return View(usuario);
         }
 
         // POST: Suministroes/Edit/5
@@ -91,9 +99,9 @@ namespace ProyectoSena.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdSuministro,NombreSuministro,IdSolicitud")] Suministro suministro)
+        public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,Direccion")] Usuario usuario)
         {
-            if (id != suministro.IdSuministro)
+            if (id != usuario.IdUsuario)
             {
                 return NotFound();
             }
@@ -102,12 +110,12 @@ namespace ProyectoSena.Controllers
             {
                 try
                 {
-                    _context.Update(suministro);
+                    _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SuministroExists(suministro.IdSuministro))
+                    if (!SuministroExists(usuario.IdUsuario))
                     {
                         return NotFound();
                     }
@@ -118,8 +126,10 @@ namespace ProyectoSena.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud", suministro.IdSolicitud);
-            return View(suministro);
+            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud");
+            ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado");
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario");
+            return View(usuario);
         }
 
         // GET: Suministroes/Delete/5
@@ -130,15 +140,17 @@ namespace ProyectoSena.Controllers
                 return NotFound();
             }
 
-            var suministro = await _context.Suministro
-                .Include(s => s.IdSolicitud)
-                .FirstOrDefaultAsync(m => m.IdSuministro == id);
-            if (suministro == null)
+            var usuario = await _context.Usuario
+                .Include(s => s.IdSolicitudNavigation)
+                .Include(s => s.IdEstadoNavigation)
+                .Include(s => s.IdHorarioNavigation)
+                .FirstOrDefaultAsync(m => m.IdUsuario == id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            return View(suministro);
+            return View(usuario);
         }
 
         // POST: Suministroes/Delete/5
@@ -146,15 +158,15 @@ namespace ProyectoSena.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var suministro = await _context.Suministro.FindAsync(id);
-            _context.Suministro.Remove(suministro);
+            var usuario = await _context.Usuario.FindAsync(id);
+            _context.Usuario.Remove(usuario);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SuministroExists(int id)
         {
-            return _context.Suministro.Any(e => e.IdSuministro == id);
+            return _context.Usuario.Any(e => e.IdUsuario == id);
         }
     }
 }

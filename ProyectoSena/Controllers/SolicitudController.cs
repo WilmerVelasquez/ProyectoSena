@@ -22,7 +22,7 @@ namespace ProyectoSena.Controllers
         // GET: Solicitud
         public async Task<IActionResult> Index()
         {
-            var sistemaRecursosHumanosDbContext = _context.Solicitud.Include(s => s.IdEstado).Include(s => s.IdUsuario);
+            var sistemaRecursosHumanosDbContext = _context.Solicitud.Include(s => s.IdEstadoNavigation).Include(s => s.IdSuministroNavigation);
             return View(await sistemaRecursosHumanosDbContext.ToListAsync());
         }
 
@@ -35,8 +35,8 @@ namespace ProyectoSena.Controllers
             }
 
             var solicitud = await _context.Solicitud
-                .Include(s => s.IdEstado)
-                .Include(s => s.IdUsuario)
+                .Include(s => s.IdEstadoNavigation)
+                .Include(s => s.IdSuministroNavigation)
                 .FirstOrDefaultAsync(m => m.IdSolicitud == id);
             if (solicitud == null)
             {
@@ -50,7 +50,7 @@ namespace ProyectoSena.Controllers
         public IActionResult Create()
         {
             ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado");
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario");
+            ViewData["IdSuministro"] = new SelectList(_context.Usuario, "IdSuministro", "IdSuministro");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace ProyectoSena.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdSolicitud,NombreSolicitud,FechaCreada,FechaRespuesta,IdEstado,IdUsuario")] Solicitud solicitud)
+        public async Task<IActionResult> Create([Bind("IdSolicitud,NombreSolicitud,FechaCreada,FechaRespuesta,IdEstado,IdSuministro")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace ProyectoSena.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado", solicitud.IdEstado);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario", solicitud.IdUsuario);
+            ViewData["IdSuministro"] = new SelectList(_context.Usuario, "IdSuministro", "IdSuministro", solicitud.IdSuministro);
             return View(solicitud);
         }
 
@@ -86,7 +86,7 @@ namespace ProyectoSena.Controllers
                 return NotFound();
             }
             ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado", solicitud.IdEstado);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario", solicitud.IdUsuario);
+            ViewData["IdSuministro"] = new SelectList(_context.Usuario, "IdSuministro", "IdSuministro", solicitud.IdSuministro);
             return View(solicitud);
         }
 
@@ -95,7 +95,7 @@ namespace ProyectoSena.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdSolicitud,NombreSolicitud,FechaCreada,FechaRespuesta,IdEstado,IdUsuario")] Solicitud solicitud)
+        public async Task<IActionResult> Edit(int id, [Bind("IdSolicitud,NombreSolicitud,FechaCreada,FechaRespuesta,IdEstado,IdSuministro")] Solicitud solicitud)
         {
             if (id != solicitud.IdSolicitud)
             {
@@ -123,7 +123,7 @@ namespace ProyectoSena.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdEstado"] = new SelectList(_context.Estado, "IdEstado", "IdEstado", solicitud.IdEstado);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario", solicitud.IdUsuario);
+            ViewData["IdSuministro"] = new SelectList(_context.Usuario, "IdSuministro", "IdSuministro", solicitud.IdSuministro);
             return View(solicitud);
         }
 
@@ -136,8 +136,8 @@ namespace ProyectoSena.Controllers
             }
 
             var solicitud = await _context.Solicitud
-                .Include(s => s.IdEstado)
-                .Include(s => s.IdUsuario)
+                .Include(s => s.IdEstadoNavigation)
+                .Include(s => s.IdSuministroNavigation)
                 .FirstOrDefaultAsync(m => m.IdSolicitud == id);
             if (solicitud == null)
             {

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace ProyectoSena.Controllers
 {
     public class RegistroIngresoController : Controller
@@ -22,8 +23,8 @@ namespace ProyectoSena.Controllers
         // GET: RegistroIngreso
         public async Task<IActionResult> Index()
         {
-            var sistemaRecursosHumanosDbContext = _context.RegistroIngreso.Include(r => r.IdHorario).Include(r => r.IdUsuario);
-            return View(await sistemaRecursosHumanosDbContext.ToListAsync());
+            var ProyectoSenaDbContext = _context.RegistroIngreso.Include(r => r.IdHorarioNavigation).Include(r => r.IdUsuarioNavigation);
+            return View(await ProyectoSenaDbContext.ToListAsync());
         }
 
         // GET: RegistroIngreso/Details/5
@@ -35,8 +36,8 @@ namespace ProyectoSena.Controllers
             }
 
             var registroIngreso = await _context.RegistroIngreso
-                .Include(r => r.IdHorario)
-                .Include(r => r.IdUsuario)
+                .Include(r => r.IdHorarioNavigation)
+                .Include(r => r.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.IdRegistro == id);
             if (registroIngreso == null)
             {
@@ -49,7 +50,7 @@ namespace ProyectoSena.Controllers
         // GET: RegistroIngreso/Create
         public IActionResult Create()
         {
-            ViewData["IdHorario"] = new SelectList(_context.Horario, "IdHorario", "IdHorario");
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario");
             ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario");
             return View();
         }
@@ -67,7 +68,7 @@ namespace ProyectoSena.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdHorario"] = new SelectList(_context.Horario, "IdHorario", "IdHorario", registroIngreso.IdHorario);
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario", registroIngreso.IdHorario);
             ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario", registroIngreso.IdUsuario);
             return View(registroIngreso);
         }
@@ -85,7 +86,7 @@ namespace ProyectoSena.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdHorario"] = new SelectList(_context.Horario, "IdHorario", "IdHorario", registroIngreso.IdHorario);
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario", registroIngreso.IdHorario);
             ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario", registroIngreso.IdUsuario);
             return View(registroIngreso);
         }
@@ -122,7 +123,7 @@ namespace ProyectoSena.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdHorario"] = new SelectList(_context.Horario, "IdHorario", "IdHorario", registroIngreso.IdHorario);
+            ViewData["IdHorario"] = new SelectList(_context.Horarios, "IdHorario", "IdHorario", registroIngreso.IdHorario);
             ViewData["IdUsuario"] = new SelectList(_context.Usuario, "IdUsuario", "IdUsuario", registroIngreso.IdUsuario);
             return View(registroIngreso);
         }
@@ -136,8 +137,8 @@ namespace ProyectoSena.Controllers
             }
 
             var registroIngreso = await _context.RegistroIngreso
-                .Include(r => r.IdHorario)
-                .Include(r => r.IdUsuario)
+                .Include(r => r.IdHorarioNavigation)
+                .Include(r => r.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.IdRegistro == id);
             if (registroIngreso == null)
             {

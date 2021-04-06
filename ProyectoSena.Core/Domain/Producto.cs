@@ -13,7 +13,8 @@ namespace ProyectoSena.Core.Domain
         public string NombreProducto { get; set; }
         public int? CantidadDisponible { get; set; }
         public string Medidas { get; set; }
-        public int? IdSuministro { get; set; }
+        public int IdSuministro { get; set; }
+
         public virtual Suministro IdSuministroNavigation { get; set; }
     }
 }

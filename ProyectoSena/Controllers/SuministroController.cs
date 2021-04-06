@@ -22,8 +22,8 @@ namespace ProyectoSena.Controllers
         // GET: Suministroes
         public async Task<IActionResult> Index()
         {
-            var sistemaRecursosHumanosDbContext = _context.Suministro.Include(s => s.IdSolicitud);
-            return View(await sistemaRecursosHumanosDbContext.ToListAsync());
+            
+            return View(await _context.Suministro.ToListAsync());
         }
 
         // GET: Suministroes/Details/5
@@ -34,8 +34,7 @@ namespace ProyectoSena.Controllers
                 return NotFound();
             }
 
-            var suministro = await _context.Suministro
-                .Include(s => s.IdSolicitud)
+            var suministro = await _context.Suministro                
                 .FirstOrDefaultAsync(m => m.IdSuministro == id);
             if (suministro == null)
             {
@@ -47,8 +46,7 @@ namespace ProyectoSena.Controllers
 
         // GET: Suministroes/Create
         public IActionResult Create()
-        {
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud");
+        {          
             return View();
         }
 
@@ -57,7 +55,7 @@ namespace ProyectoSena.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdSuministro,NombreSuministro,IdSolicitud")] Suministro suministro)
+        public async Task<IActionResult> Create([Bind("IdSuministro,NombreSuministro")] Suministro suministro)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +63,6 @@ namespace ProyectoSena.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud", suministro.IdSolicitud);
             return View(suministro);
         }
 
@@ -81,8 +78,7 @@ namespace ProyectoSena.Controllers
             if (suministro == null)
             {
                 return NotFound();
-            }
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud", suministro.IdSolicitud);
+            }            
             return View(suministro);
         }
 
@@ -91,7 +87,7 @@ namespace ProyectoSena.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdSuministro,NombreSuministro,IdSolicitud")] Suministro suministro)
+        public async Task<IActionResult> Edit(int id, [Bind("IdSuministro,NombreSuministro")] Suministro suministro)
         {
             if (id != suministro.IdSuministro)
             {
@@ -117,8 +113,7 @@ namespace ProyectoSena.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdSolicitud"] = new SelectList(_context.Solicitud, "IdSolicitud", "IdSolicitud", suministro.IdSolicitud);
+            }            
             return View(suministro);
         }
 
@@ -130,8 +125,7 @@ namespace ProyectoSena.Controllers
                 return NotFound();
             }
 
-            var suministro = await _context.Suministro
-                .Include(s => s.IdSolicitud)
+            var suministro = await _context.Suministro                
                 .FirstOrDefaultAsync(m => m.IdSuministro == id);
             if (suministro == null)
             {
